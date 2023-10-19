@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background: red;
 }
 
 .logo {
@@ -33,8 +34,27 @@
   }
 }
 
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 2em;
+}
+
 .card {
   padding: 2em;
+  background: #fff;
+  border-radius: 0.5em;
+  box-shadow: 0 0 1em #00000022;
+  transition: 0.5s;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 2em #00000022;
 }
 
 .read-the-docs {
