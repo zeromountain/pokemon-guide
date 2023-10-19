@@ -1,6 +1,10 @@
 import { AxiosInstance } from "axios";
 import instance from "../instance";
-import { PokemonListResponseType, PokemonSpeciesType } from "./pokemon.type";
+import {
+  Pokemon,
+  PokemonListResponseType,
+  PokemonSpeciesType,
+} from "./pokemon.type";
 
 class PokemonApi {
   axios: AxiosInstance = instance;
@@ -24,7 +28,7 @@ class PokemonApi {
     return data;
   };
 
-  getPokemonInfoByName = async (name?: string) => {
+  getPokemonInfoByName = async (name?: string): Promise<Pokemon> => {
     const { data } = await this.axios({
       method: "GET",
       url: `/pokemon/${name}`,
@@ -43,6 +47,7 @@ class PokemonApi {
   };
 
   getPokemonSpecies = async (name?: string): Promise<PokemonSpeciesType> => {
+    // const pokemonName = getPartPokemonName(name);
     const { data } = await this.axios({
       method: "GET",
       url: `/pokemon-species/${name}`,

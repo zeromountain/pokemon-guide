@@ -204,3 +204,30 @@ export type PokemonSpeciesType = {
   generation: Generation;
   names: NameType[];
 };
+
+export type Pokemon = {
+  id: number;
+  name: string;
+  base_experience: number;
+  height: number;
+  is_default: boolean;
+  order: number;
+  weight: number;
+  abilities: PokemonAbility[];
+  forms: unknown[];
+  game_indices: unknown[];
+  held_items: unknown[];
+  location_area_encounters: string;
+  moves: unknown[];
+  past_types: unknown[];
+  sprites: unknown;
+  species: PokemonSpeciesType;
+  stats: unknown[];
+  types: unknown[];
+};
+
+export type PokemonAbility = {
+  is_hidden: boolean;
+  slot: number;
+  ability: Ability;
+};
