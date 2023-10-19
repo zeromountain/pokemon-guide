@@ -5,10 +5,11 @@ import { pokemonSlice } from "../../store/pokemonSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import Card from "../molecules/card";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 function Main() {
   const dispatch = useDispatch();
-  const { data } = useGetPokemonListInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage } = useGetPokemonListInfiniteQuery({
     variables: {
       limit: 20,
     },
@@ -16,6 +17,14 @@ function Main() {
   const { pokemon: pokemons } = useSelector(
     (state: RootState) => state.pokemon
   );
+
+  const targetRef = React.useRef<HTMLDivElement>(null);
+
+  useInfiniteScroll({
+    targetRef,
+    onIntersect: fetchNextPage,
+    enabled: hasNextPage,
+  });
 
   React.useEffect(() => {
     const pokemonList = data?.pages
@@ -40,6 +49,7 @@ function Main() {
             // 카드 컴포넌트
             <Card key={pokemon.name} pokemon={pokemon} />
           ))}
+          <div ref={targetRef} />
         </ul>
       </div>
     </div>

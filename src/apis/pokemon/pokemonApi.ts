@@ -16,7 +16,7 @@ class PokemonApi {
       method: "GET",
       url: "/pokemon",
       params: {
-        limit: 20,
+        limit: 24,
         ...params,
       },
     });
