@@ -37,7 +37,6 @@ function Main() {
         }.png`,
       }));
     dispatch(pokemonSlice.actions.setPokemon(pokemonList));
-    console.log({ pokemonList });
   }, [data, dispatch]);
 
   return (

@@ -178,7 +178,13 @@ export type Generation = {
 
 export type Move = unknown;
 
-export type Type = unknown;
+export type Type = {
+  slot: number;
+  type: {
+    name: string;
+    url: string;
+  };
+};
 
 export type PokemonSpeciesType = {
   id: number;
@@ -220,11 +226,62 @@ export type Pokemon = {
   location_area_encounters: string;
   moves: unknown[];
   past_types: unknown[];
-  sprites: unknown;
+  sprites: PokemonSprites;
   species: PokemonSpeciesType;
   stats: unknown[];
-  types: unknown[];
+  types: Type[];
 };
+
+export type PokemonSprites = {
+  back_default: string;
+  back_female: string;
+  back_shiny: string;
+  back_shiny_female: string;
+  front_default: string;
+  front_female: string;
+  front_shiny: string;
+  front_shiny_female: string;
+  versions: PokemonVersions;
+};
+
+export interface PokemonImgType {
+  [key: string]: string;
+  back_default: string;
+  back_female: string;
+  back_shiny: string;
+  back_shiny_female: string;
+  front_default: string;
+  front_female: string;
+  front_shiny: string;
+  front_shiny_female: string;
+}
+
+export interface PokemonVersions {
+  "generation-i": { "red-blue": PokemonImgType; yellow: PokemonImgType };
+  "generation-ii": {
+    crystal: PokemonImgType;
+    gold: PokemonImgType;
+    silver: PokemonImgType;
+  };
+  "generation-iii": {
+    emerald: PokemonImgType;
+    "firered-leafgreen": PokemonImgType;
+    "ruby-sapphire": PokemonImgType;
+  };
+  "generation-iv": {
+    "diamond-pearl": PokemonImgType;
+    "heartgold-soulsilver": PokemonImgType;
+    platinum: PokemonImgType;
+  };
+  "generation-v": {
+    "black-white": { animated: PokemonImgType; front_default: string };
+  };
+  "generation-vi": {
+    "omegaruby-alphasapphire": PokemonImgType;
+    "x-y": PokemonImgType;
+  };
+  "generation-vii": { "ultra-sun-ultra-moon": PokemonImgType };
+}
 
 export type PokemonAbility = {
   is_hidden: boolean;

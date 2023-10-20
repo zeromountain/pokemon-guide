@@ -5,6 +5,7 @@ import {
   useGetPokemonInfoByNameQuery,
   useGetPokemonSpeciesQuery,
 } from "../../../apis/pokemon/pokemonApi.query";
+import POKEMON_TYPE_MAP from "../../../constants/pokemon-type-map";
 
 interface CardProps {
   pokemon: PokemonType;
@@ -33,9 +34,34 @@ export default function Card({ pokemon }: CardProps) {
   return (
     <Link to={`/${pokemon.id}`}>
       <div className="card" key={pokemon.name}>
-        <img src={pokemon.image} alt={pokemon.name} loading="lazy" />
-        <p>No.{pokemon.id.toString().padStart(4, "0")}</p>
-        <p>{koreanName}</p>
+        <img
+          src={
+            pokemonInfo?.sprites?.versions?.["generation-v"]?.["black-white"]
+              ?.animated?.front_default ||
+            pokemonInfo?.sprites?.front_default ||
+            "/pokeball.png"
+          }
+          alt={pokemon.name}
+          width={
+            pokemonInfo?.sprites?.versions?.["generation-v"]?.["black-white"]
+              ?.animated?.front_default
+              ? 100
+              : 120
+          }
+          height={120}
+          loading="lazy"
+        />
+        <div>
+          <p>No.{pokemon.id.toString().padStart(4, "0")}</p>
+          <h3>{koreanName}</h3>
+          <div className="types">
+            {pokemonInfo?.types?.map((type, index) => (
+              <span key={index} className={`type ${type.type.name}`}>
+                {POKEMON_TYPE_MAP[type.type.name]}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </Link>
   );
