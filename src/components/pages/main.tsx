@@ -9,11 +9,7 @@ import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 function Main() {
   const dispatch = useDispatch();
-  const { data, fetchNextPage, hasNextPage } = useGetPokemonListInfiniteQuery({
-    variables: {
-      limit: 20,
-    },
-  });
+  const { data, fetchNextPage, hasNextPage } = useGetPokemonListInfiniteQuery();
   const { pokemon: pokemons } = useSelector(
     (state: RootState) => state.pokemon
   );
@@ -41,11 +37,9 @@ function Main() {
 
   return (
     <div>
-      <h1>포켓몬 도감</h1>
       <div>
         <ul className="card-list">
           {pokemons?.map((pokemon) => (
-            // 카드 컴포넌트
             <Card key={pokemon.name} pokemon={pokemon} />
           ))}
           <div ref={targetRef} />
