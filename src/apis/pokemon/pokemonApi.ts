@@ -1,6 +1,7 @@
 import { AxiosInstance } from "axios";
 import instance from "../instance";
 import {
+  EvolutionChain,
   Pokemon,
   PokemonListResponseType,
   PokemonSpeciesType,
@@ -37,7 +38,7 @@ class PokemonApi {
     return data;
   };
 
-  getPokemonInfoById = async (id?: number) => {
+  getPokemonInfoById = async (id?: number): Promise<Pokemon> => {
     const { data } = await this.axios({
       method: "GET",
       url: `/pokemon/${id}`,
@@ -51,6 +52,15 @@ class PokemonApi {
     const { data } = await this.axios({
       method: "GET",
       url: `/pokemon-species/${name}`,
+    });
+
+    return data;
+  };
+
+  getPokemonEvolutionChain = async (id?: number): Promise<EvolutionChain> => {
+    const { data } = await this.axios({
+      method: "GET",
+      url: `/evolution-chain/${id}`,
     });
 
     return data;

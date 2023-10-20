@@ -1,5 +1,3 @@
-import { AxiosError } from "axios";
-import { UseInfiniteQueryParams } from "../../types/react-query/use-infinite-query-params";
 import pokemonApi from "./pokemonApi";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { UseQueryParams } from "../../types/react-query/use-query";
@@ -9,16 +7,11 @@ export const POKEMON_QUERY_KEY = {
   GET_POKEMON_INFO_BY_NAME: (name?: string) => ["POKEMON_INFO_BY_NAME", name],
   GET_POKEMON_INFO_BY_ID: (id?: number) => ["POKEMON_INFO_BY_ID", id],
   GET_POKEMON_SPECIES: (name?: string) => ["POKEMON_SPECIES", name],
+  GET_POKEMON_EVOLUTION_CHAIN: (id?: number) => ["POKEMON_EVOLUTION_CHAIN", id],
 };
 
-export const useGetPokemonListInfiniteQuery = (
-  params: UseInfiniteQueryParams<
-    typeof pokemonApi.getPokemonList,
-    AxiosError<unknown>
-  >
-) => {
+export const useGetPokemonListInfiniteQuery = () => {
   const queryKey = POKEMON_QUERY_KEY.GET_POKEMON_LIST;
-  console.log({ params, queryKey });
   return useInfiniteQuery(
     queryKey,
     ({ pageParam = 0 }) =>
@@ -74,6 +67,20 @@ export const useGetPokemonSpeciesQuery = (
   return useQuery(
     queryKey,
     () => pokemonApi.getPokemonSpecies(params?.variables),
+    params?.options
+  );
+};
+
+export const useGetPokemonEvolutionChainQuery = (
+  params?: UseQueryParams<typeof pokemonApi.getPokemonEvolutionChain>
+) => {
+  const queryKey = POKEMON_QUERY_KEY.GET_POKEMON_EVOLUTION_CHAIN(
+    params?.variables
+  );
+
+  return useQuery(
+    queryKey,
+    () => pokemonApi.getPokemonEvolutionChain(params?.variables),
     params?.options
   );
 };

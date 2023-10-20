@@ -134,7 +134,10 @@ export type VersionGroup = {
   versions: Version[];
 };
 
-export type Version = unknown;
+export type Version = {
+  name: string;
+  url: string;
+};
 
 export type Region = {
   id: number;
@@ -208,7 +211,9 @@ export type PokemonSpeciesType = {
   evolution_chain: unknown;
   habitat: unknown;
   generation: Generation;
+  genera: Genus[];
   names: NameType[];
+  flavor_text_entries: FlavorTextType[];
 };
 
 export type Pokemon = {
@@ -287,4 +292,49 @@ export type PokemonAbility = {
   is_hidden: boolean;
   slot: number;
   ability: Ability;
+};
+
+export type EvolutionChain = {
+  id: number;
+  baby_trigger_item: Record<string, unknown>;
+  chain: ChainLink;
+};
+
+export type ChainLink = {
+  is_baby: boolean;
+  species: PokemonSpeciesType;
+  evolution_details: EvolutionDetail[];
+  evolves_to: ChainLink[];
+};
+
+export type EvolutionDetail = {
+  item: Record<string, unknown>;
+  trigger: Record<string, unknown>;
+  gender: number;
+  held_item: Record<string, unknown>;
+  known_move: Record<string, unknown>;
+  known_move_type: Record<string, unknown>;
+  location: Record<string, unknown>;
+  min_level: number;
+  min_happiness: number;
+  min_beauty: number;
+  min_affection: number;
+  needs_overworld_rain: boolean;
+  party_species: PokemonSpeciesType;
+  party_type: Type;
+  relative_physical_stats: number;
+  time_of_day: string;
+  trade_species: PokemonSpeciesType;
+  turn_upside_down: boolean;
+};
+
+export type Genus = {
+  genus: string;
+  language: LanguageType;
+};
+
+export type FlavorTextType = {
+  flavor_text: string;
+  language: LanguageType;
+  version: Version;
 };
