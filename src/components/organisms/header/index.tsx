@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <header className="header">
       <Link to="/">
-        <img src="/pokemon.png" alt="logo" width={500} height={200} />
+        <img className="logo" src="/pokemon.png" alt="logo" />
       </Link>
     </header>
   );

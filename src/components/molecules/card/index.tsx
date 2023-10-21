@@ -37,7 +37,7 @@ export default function Card({
     return name.language.name === "ko";
   })[0].name;
 
-  console.log({ data, koreanName, pokemonInfo });
+  // console.log({ data, koreanName, pokemonInfo });
 
   const handleNavigate = React.useCallback(() => {
     if (!isLinking) return;

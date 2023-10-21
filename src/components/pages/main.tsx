@@ -6,13 +6,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import Card from "../molecules/card";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
+import SearchInput from "../molecules/searchInput";
 
 function Main() {
   const dispatch = useDispatch();
-  const { data, fetchNextPage, hasNextPage } = useGetPokemonListInfiniteQuery();
+
+  const { search } = useSelector((state: RootState) => state.search);
+
   const { pokemon: pokemons } = useSelector(
     (state: RootState) => state.pokemon
   );
+
+  const { data, fetchNextPage, hasNextPage } = useGetPokemonListInfiniteQuery({
+    variables: {
+      search,
+    },
+    options: {
+      onSuccess: (data) => {
+        console.log("success", { data });
+      },
+      onError: (error) => {
+        console.log("error", { error });
+      },
+    },
+  });
+
+  console.log({ search, data });
 
   const targetRef = React.useRef<HTMLDivElement>(null);
 
@@ -36,15 +55,14 @@ function Main() {
   }, [data, dispatch]);
 
   return (
-    <div>
-      <div>
-        <ul className="card-list">
-          {pokemons?.map((pokemon) => (
-            <Card key={pokemon.name} pokemon={pokemon} />
-          ))}
-          <div ref={targetRef} />
-        </ul>
-      </div>
+    <div className="main-container">
+      <SearchInput />
+      <ul className="card-list">
+        {pokemons?.map((pokemon) => (
+          <Card key={pokemon.name} pokemon={pokemon} />
+        ))}
+        <div ref={targetRef} />
+      </ul>
     </div>
   );
 }
