@@ -16,7 +16,7 @@ class PokemonApi {
   getPokemonList = async (params?: {
     offset?: number;
     search?: string;
-  }): Promise<PokemonListResponseType> => {
+  }): Promise<PokemonListResponseType | Pokemon> => {
     const { search } = params || {};
     let url = "/pokemon";
 
@@ -34,8 +34,6 @@ class PokemonApi {
         offset: params?.offset,
       },
     });
-
-    console.log({ url, search, data });
 
     return data;
   };

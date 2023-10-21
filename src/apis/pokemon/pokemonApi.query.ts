@@ -16,7 +16,7 @@ export const useGetPokemonListInfiniteQuery = (
   const queryKey = POKEMON_QUERY_KEY.GET_POKEMON_LIST(
     params?.variables?.search
   );
-  console.log({ params });
+
   return useInfiniteQuery(
     queryKey,
     ({ pageParam = 0 }) =>
@@ -25,14 +25,10 @@ export const useGetPokemonListInfiniteQuery = (
         offset: pageParam,
       }),
     {
-      getNextPageParam: (lastPage) => {
-        if (lastPage) {
-          const url = new URL(lastPage.next);
-          const offset = url.searchParams.get("offset");
-          return offset ? Number(offset) : undefined;
-        }
-
-        return undefined;
+      getNextPageParam: (lastPage: any) => {
+        const { next } = lastPage;
+        if (!next) return undefined;
+        return Number(new URL(next).searchParams.get("offset"));
       },
       refetchOnWindowFocus: false,
     }
