@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { pokemonSlice } from "./pokemonSlice";
+import { searchSlice } from "./searchSlice";
 
 export const store = configureStore({
   reducer: {
     pokemon: pokemonSlice.reducer,
+    search: searchSlice.reducer,
   },
 });
 
