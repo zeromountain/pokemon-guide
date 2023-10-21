@@ -44,7 +44,20 @@
   align-items: center;
   margin-bottom: 2em;
   background: #fff;
+  z-index: 999;
   /* box-shadow: 0 0 10px 10px #00000022; */
+}
+
+.logo {
+  height: 200px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  background: red;
 }
 
 .card-list {
