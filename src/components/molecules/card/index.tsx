@@ -20,9 +20,9 @@ export default function Card({
 }: CardProps) {
   const navigate = useNavigate();
   const { data: pokemonInfo } = useGetPokemonInfoByNameQuery({
-    variables: pokemon.name,
+    variables: pokemon?.name,
     options: {
-      enabled: !!pokemon.name,
+      enabled: !!pokemon?.name,
     },
   });
 
@@ -41,11 +41,11 @@ export default function Card({
 
   const handleNavigate = React.useCallback(() => {
     if (!isLinking) return;
-    navigate(`/${pokemon.id}`);
-  }, [isLinking, navigate, pokemon.id]);
+    navigate(`/${pokemon?.id}`);
+  }, [isLinking, navigate, pokemon?.id]);
 
   return (
-    <div className="card" key={pokemon.name} onClick={handleNavigate}>
+    <div className="card" onClick={handleNavigate}>
       <img
         src={
           pokemonInfo?.sprites?.versions?.["generation-v"]?.["black-white"]
@@ -53,7 +53,7 @@ export default function Card({
           pokemonInfo?.sprites?.front_default ||
           "/pokeball.png"
         }
-        alt={pokemon.name}
+        alt={pokemon?.name}
         width={
           pokemonInfo?.sprites?.versions?.["generation-v"]?.["black-white"]
             ?.animated?.front_default
@@ -64,12 +64,15 @@ export default function Card({
         loading="lazy"
       />
       <div>
-        {isNumber && <p>No.{pokemon.id.toString().padStart(4, "0")}</p>}
+        {isNumber && <p>No.{pokemon?.id.toString().padStart(4, "0")}</p>}
         <h3>{koreanName}</h3>
         <div className="types">
           {pokemonInfo?.types?.map((type, index) => (
-            <span key={index} className={`type ${type.type.name}`}>
-              {POKEMON_TYPE_MAP[type.type.name]}
+            <span
+              key={`${type.type.name}-${index}`}
+              className={`type ${type?.type?.name}`}
+            >
+              {POKEMON_TYPE_MAP[type?.type?.name]}
             </span>
           ))}
         </div>

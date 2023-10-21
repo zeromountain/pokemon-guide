@@ -13,9 +13,6 @@ export default function SearchInput() {
   };
 
   const handleSearch = () => {
-    if (input.trim() === "") {
-      alert("번호를 입력해주세요");
-    }
     if (isNaN(Number(input))) {
       alert("숫자만 입력해주세요");
       return;
