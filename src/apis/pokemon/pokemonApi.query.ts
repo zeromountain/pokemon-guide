@@ -3,19 +3,25 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { UseQueryParams } from "../../types/react-query/use-query";
 
 export const POKEMON_QUERY_KEY = {
-  GET_POKEMON_LIST: ["POKEMON_LIST"],
+  GET_POKEMON_LIST: (search?: string) => ["POKEMON_LIST", search],
   GET_POKEMON_INFO_BY_NAME: (name?: string) => ["POKEMON_INFO_BY_NAME", name],
   GET_POKEMON_INFO_BY_ID: (id?: number) => ["POKEMON_INFO_BY_ID", id],
   GET_POKEMON_SPECIES: (name?: string) => ["POKEMON_SPECIES", name],
   GET_POKEMON_EVOLUTION_CHAIN: (id?: number) => ["POKEMON_EVOLUTION_CHAIN", id],
 };
 
-export const useGetPokemonListInfiniteQuery = () => {
-  const queryKey = POKEMON_QUERY_KEY.GET_POKEMON_LIST;
+export const useGetPokemonListInfiniteQuery = (
+  params?: UseQueryParams<typeof pokemonApi.getPokemonList>
+) => {
+  const queryKey = POKEMON_QUERY_KEY.GET_POKEMON_LIST(
+    params?.variables?.search
+  );
+  console.log({ params });
   return useInfiniteQuery(
     queryKey,
     ({ pageParam = 0 }) =>
       pokemonApi.getPokemonList({
+        ...params?.variables,
         offset: pageParam,
       }),
     {

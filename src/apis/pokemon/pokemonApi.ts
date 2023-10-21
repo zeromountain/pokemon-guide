@@ -14,17 +14,28 @@ class PokemonApi {
   }
 
   getPokemonList = async (params?: {
-    limit?: number;
     offset?: number;
+    search?: string;
   }): Promise<PokemonListResponseType> => {
+    const { search } = params || {};
+    let url = "/pokemon";
+
+    if (search) {
+      if (search.length > 0) {
+        url = `${url}/${search}`;
+      }
+    }
+
     const { data } = await this.axios({
       method: "GET",
-      url: "/pokemon",
+      url,
       params: {
         limit: 24,
-        ...params,
+        offset: params?.offset,
       },
     });
+
+    console.log({ url, search, data });
 
     return data;
   };
