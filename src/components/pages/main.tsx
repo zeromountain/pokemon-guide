@@ -6,23 +6,25 @@ import { RootState } from "../../store";
 import Card from "../molecules/card";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import SearchInput from "../molecules/searchInput";
+import Modal from "../molecules/modal";
 
 function Main() {
   const { search } = useSelector((state: RootState) => state.search);
 
-  const { data, fetchNextPage, hasNextPage } = useGetPokemonListInfiniteQuery({
-    variables: {
-      search,
-    },
-    options: {
-      onSuccess: (data) => {
-        console.log("success", { data });
+  const { data, isLoading, fetchNextPage, hasNextPage } =
+    useGetPokemonListInfiniteQuery({
+      variables: {
+        search,
       },
-      onError: (error) => {
-        console.log("error", { error });
+      options: {
+        onSuccess: (data) => {
+          console.log("success", { data });
+        },
+        onError: (error) => {
+          console.log("error", { error });
+        },
       },
-    },
-  });
+    });
 
   const targetRef = React.useRef<HTMLDivElement>(null);
 
@@ -55,12 +57,18 @@ function Main() {
   return (
     <div className="main-container">
       <SearchInput />
-      <ul className="card-list">
-        {pokemonList?.map((pokemon, index) => (
-          <Card key={`${pokemon?.name}-${index}`} pokemon={pokemon} />
-        ))}
-        <div ref={targetRef} />
-      </ul>
+      {isLoading ? (
+        <Modal isLoading={isLoading}>
+          <div>로딩중입니다.</div>
+        </Modal>
+      ) : (
+        <ul className="card-list">
+          {pokemonList?.map((pokemon, index) => (
+            <Card key={`${pokemon?.name}-${index}`} pokemon={pokemon} />
+          ))}
+          <div ref={targetRef} />
+        </ul>
+      )}
     </div>
   );
 }
