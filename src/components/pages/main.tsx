@@ -1,15 +1,19 @@
 import React from "react";
+import { useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useGetPokemonListInfiniteQuery } from "../../apis/pokemon/pokemonApi.query";
-import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import Card from "../molecules/card";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import SearchInput from "../molecules/searchInput";
 import Modal from "../molecules/modal";
+import { setSearch } from "../../store/searchSlice";
 
 function Main() {
+  const [searchParams] = useSearchParams();
   const { search } = useSelector((state: RootState) => state.search);
+  const dispatch = useDispatch();
 
   const { data, isLoading, fetchNextPage, hasNextPage } =
     useGetPokemonListInfiniteQuery({
@@ -53,6 +57,14 @@ function Main() {
       }));
     }
   }, [data]);
+
+  React.useEffect(() => {
+    if (!searchParams.get("q")) return;
+    if (searchParams.get("q") === search) return;
+    const queryString = searchParams.get("q") || "";
+
+    dispatch(setSearch(queryString));
+  }, [searchParams, search, dispatch]);
 
   return (
     <div className="main-container">
