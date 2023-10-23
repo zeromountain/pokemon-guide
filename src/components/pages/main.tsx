@@ -70,9 +70,7 @@ function Main() {
     <div className="main-container">
       <SearchInput />
       {isLoading ? (
-        <Modal isLoading={isLoading}>
-          <div>로딩중입니다.</div>
-        </Modal>
+        <Modal isLoading={isLoading}>로딩중입니다.</Modal>
       ) : (
         <ul className="card-list">
           {pokemonList?.map((pokemon, index) => (

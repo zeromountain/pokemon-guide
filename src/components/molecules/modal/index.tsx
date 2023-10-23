@@ -15,9 +15,13 @@ export default function Modal({
       className={style.modal}
     >
       <div className={style["modal-content"]}>
-        <div className={style.loader}></div>
-        <div className={style["modal-text"]}>Loading...</div>
-        {children}
+        <img
+          src="/pikachu-loading.gif"
+          alt="loading"
+          width={300}
+          height={300}
+        />
+        <div className={style["modal-text"]}>{children}</div>
       </div>
     </div>
   );
