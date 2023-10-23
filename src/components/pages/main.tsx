@@ -9,6 +9,7 @@ import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import SearchInput from "../molecules/searchInput";
 import Modal from "../molecules/modal";
 import { setSearch } from "../../store/searchSlice";
+import { Helmet } from "react-helmet-async";
 
 function Main() {
   const [searchParams] = useSearchParams();
@@ -67,19 +68,24 @@ function Main() {
   }, [searchParams, search, dispatch]);
 
   return (
-    <div className="main-container">
-      <SearchInput />
-      {isLoading ? (
-        <Modal isLoading={isLoading}>로딩중입니다.</Modal>
-      ) : (
-        <ul className="card-list">
-          {pokemonList?.map((pokemon, index) => (
-            <Card key={`${pokemon?.name}-${index}`} pokemon={pokemon} />
-          ))}
-          <div ref={targetRef} />
-        </ul>
-      )}
-    </div>
+    <>
+      <Helmet>
+        <title>포켓몬 리스트</title>
+      </Helmet>
+      <div className="main-container">
+        <SearchInput />
+        {isLoading ? (
+          <Modal isLoading={isLoading}>로딩중입니다.</Modal>
+        ) : (
+          <ul className="card-list">
+            {pokemonList?.map((pokemon, index) => (
+              <Card key={`${pokemon?.name}-${index}`} pokemon={pokemon} />
+            ))}
+            <div ref={targetRef} />
+          </ul>
+        )}
+      </div>
+    </>
   );
 }
 

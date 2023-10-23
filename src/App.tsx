@@ -5,6 +5,7 @@ import { useRoutes } from "react-router-dom";
 import router from "./router";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { HelmetProvider } from "react-helmet-async";
 
 const client = new QueryClient();
 
@@ -13,7 +14,9 @@ function App() {
 
   return (
     <QueryClientProvider client={client}>
-      <Provider store={store}>{routes}</Provider>
+      <HelmetProvider>
+        <Provider store={store}>{routes}</Provider>
+      </HelmetProvider>
     </QueryClientProvider>
   );
 }
