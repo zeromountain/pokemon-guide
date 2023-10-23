@@ -1,39 +1,13 @@
 import React from "react";
 import style from "./style.module.css";
-import { useDispatch } from "react-redux";
-import { setSearch } from "../../../store/searchSlice";
-import { useSearchParams } from "react-router-dom";
+import { useInput } from "../../../hooks/useInput";
 
 export default function SearchInput() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [input, setInput] = React.useState(searchParams.get("q") || "");
-  const dispatch = useDispatch();
-
-  const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === input) return;
-    setInput(e.target.value);
-  };
+  const { input, handleSearch, onChangeSearch } = useInput();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSearch();
-  };
-
-  const handleSearch = () => {
-    if (input.trim() === "") {
-      searchParams.delete("q");
-      setSearchParams(searchParams);
-      dispatch(setSearch(""));
-      return;
-    }
-    if (isNaN(Number(input))) {
-      alert("숫자만 입력해주세요");
-      return;
-    } else {
-      searchParams.set("q", input);
-      setSearchParams(searchParams);
-      dispatch(setSearch(input));
-    }
   };
 
   return (
