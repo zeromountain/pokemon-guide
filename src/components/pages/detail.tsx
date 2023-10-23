@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import {
   useGetPokemonEvolutionChainQuery,
@@ -7,10 +6,12 @@ import {
 } from "../../apis/pokemon/pokemonApi.query";
 import recursion from "../../utils/recursion";
 import Card from "../molecules/card";
-import POKEMON_TYPE_MAP from "../../constants/pokemon-type-map";
 import parseSizeInfo from "../../utils/parse-size-info";
 import Modal from "../molecules/modal";
 import { Helmet } from "react-helmet-async";
+import Type from "../atoms/type";
+import Text from "../atoms/text";
+import SubTitle from "../atoms/subtitle";
 
 function Detail() {
   const { id } = useParams();
@@ -76,36 +77,34 @@ function Detail() {
                 loading="lazy"
                 alt={`${koreanName} 이미지`}
               />
-              <div>
+              <div className="flex gap-1 center">
                 <div>
                   <p className="order-num">
                     No.{id?.toString().padStart(4, "0")}
                   </p>
                   <p className="pokemon-name">{koreanName}</p>
                 </div>
-                <div>
-                  <p>타입</p>
+                <div className="flex column center gap-1">
                   <div>
-                    {pokemonInfo?.types?.map((type) => (
-                      <span className={`type ${type.type.name}`}>
-                        {POKEMON_TYPE_MAP[type.type.name]}
-                      </span>
-                    ))}
+                    <SubTitle>키</SubTitle>
+                    <Text>{parseSizeInfo(pokemonInfo?.height)}m</Text>
                   </div>
-                </div>
-                <div>
-                  <p>키</p>
-                  <p>{parseSizeInfo(pokemonInfo?.height)}m</p>
-                </div>
-                <div>
-                  <p>몸무게</p>
-                  <p>{parseSizeInfo(pokemonInfo?.weight)}kg</p>
+                  <div>
+                    <SubTitle>몸무게</SubTitle>
+                    <Text>{parseSizeInfo(pokemonInfo?.weight)}kg</Text>
+                  </div>
+                  <div>
+                    <SubTitle>타입</SubTitle>
+                    <div className="flex gap-1">
+                      {pokemonInfo?.types?.map((type, index) => (
+                        <Type key={index} typeName={type.type.name} />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
               <div>
-                {favorTexts?.map((text, index) => (
-                  <p key={`${text}-${index}`}>{text.flavor_text}</p>
-                ))}
+                <p>{favorTexts?.[0]?.flavor_text}</p>
               </div>
             </div>
             {/* 진화 과정 */}
